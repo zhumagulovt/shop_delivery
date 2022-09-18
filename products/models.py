@@ -32,3 +32,19 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+
+
+class Order(models.Model):
+    name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=12)
+    address = models.TextField()
+    ordered_date = models.DateTimeField(auto_now=True)
+    ordered = models.BooleanField(default=False)
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+
