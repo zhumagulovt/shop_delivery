@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
@@ -5,6 +7,7 @@ from rest_framework.response import Response
 
 from .models import Category, Product, Order, OrderItem
 from .serializers import CategorySerializer, ProductSerializer
+from .services import create_order, create_order_items, set_total_price_of_order
 
 
 class CustomPagination(PageNumberPagination):
@@ -32,21 +35,18 @@ class ProductsByCategoryView(ListAPIView):
 @api_view(['POST'])
 def create_order_view(request):
     data = request.data
+    
+    delivery_time = datetime.strptime(data['delivery_time'], '%H:%M').time()
 
-    order = Order.objects.create(
-        name=data['name'],
-        phone_number=data['phone_number'],
-        address=data['address']
+    order = create_order(
+        data['name'], data['phone_number'], data['address'], delivery_time
     )
 
     order_items = data['order_items']
 
-    for order_item in order_items:
-        OrderItem.objects.create(
-            order=order,
-            product_id=order_item['product_id'],
-            quantity=order_item['quantity']
-        )
+    create_order_items(order_items, order)
     
-    print(data)
+    # Указать цену после добавления всех предметов
+    set_total_price_of_order(order)
+
     return Response("ok")
