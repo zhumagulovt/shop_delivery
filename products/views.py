@@ -1,13 +1,8 @@
-from datetime import datetime
-
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
-from .models import Category, Product, Order, OrderItem
+from .models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
-from .services import create_order, create_order_items, set_total_price_of_order
 
 
 class CustomPagination(PageNumberPagination):
@@ -30,23 +25,3 @@ class ProductsByCategoryView(ListAPIView):
         category_id = self.kwargs.get('pk')
         queryset = Product.objects.filter(category_id=category_id).select_related('category')
         return queryset
-
-
-@api_view(['POST'])
-def create_order_view(request):
-    data = request.data
-    
-    delivery_time = datetime.strptime(data['delivery_time'], '%H:%M').time()
-
-    order = create_order(
-        data['name'], data['phone_number'], data['address'], delivery_time
-    )
-
-    order_items = data['order_items']
-
-    create_order_items(order_items, order)
-    
-    # Указать цену после добавления всех предметов
-    set_total_price_of_order(order)
-
-    return Response("ok")
