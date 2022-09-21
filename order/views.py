@@ -30,10 +30,13 @@ def create_order_view(request):
         # Указать цену после добавления всех предметов
         set_total_price_of_order(order)
 
+        message = {
+            "name": data['name'],
+            "phone_number": data['phone_number'],
+            "address": data['address'],
+            "delivery_time": data['delivery_time']
+        }
         # Отправить уведомление о новом заказе курьеру
-        # send_notification_to_courier({
-        #     'name': order.name,
-        #     'phone_number'
-        # })
+        send_notification_to_courier(message)
 
         return Response("ok")

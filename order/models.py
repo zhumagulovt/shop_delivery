@@ -7,9 +7,9 @@ class Order(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя покупателя')
     phone_number = models.CharField(max_length=12, verbose_name='Номер телефона')
     address = models.TextField(verbose_name='Адрес')
-    ordered_date = models.DateTimeField(auto_now=True, verbose_name='Дата заказа')
+    ordered_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата заказа')
     ordered = models.BooleanField(default=False, verbose_name='Завершен')
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Конечная стоимость")
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Конечная стоимость", null=True)
     delivery_time = models.TimeField(blank=True, verbose_name='Время доставки')
 
     class Meta:

@@ -23,15 +23,19 @@ def create_order_item(order_item: dict, order: Order):
 
     OrderItem.objects.create(
         order=order,
-        product_id=order_item['product_id'],
-        quantity=order_item['quantity']
+        product_id=order_item['product'],
+        quantity=order_item.get('quantity', 1)
     )
 
 
 def set_total_price_of_order(order: Order):
+    """Установить цену заказа"""
     total = 0
     for item in order.items.all():
         total += item.quantity * item.product.price
     
-    order.price = total
+    order.total_price = total
+    # Установить заказ готовым
+    order.ordered = True
+    order.save()
     return total
