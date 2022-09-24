@@ -243,7 +243,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["auth", "products", "products.Category", "products.Product"],
+    "order_with_respect_to": ["account", "products", "products.Category", "products.Product"],
 
     # Custom links to append to app groups, keyed on app name
     "custom_links": {

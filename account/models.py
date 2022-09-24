@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    """User model"""
+    """Модель пользователя"""
 
     username = None
     email = models.EmailField('email', unique=True)
