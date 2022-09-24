@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'products.apps.ProductsConfig',
+    'account',
     'order',
     'delivery',
 ]
@@ -96,6 +97,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'account.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
