@@ -2,15 +2,17 @@ from datetime import datetime
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
 
 from delivery.services import send_notification_to_courier
 from .services import create_order, create_order_items, set_total_price_of_order
 from .serializers import OrderSerializer
 
 
+@swagger_auto_schema(method='post', request_body=OrderSerializer, responses={201:'created'})
 @api_view(['POST'])
 def create_order_view(request):
-    
+    """Создает новый заказ и отправляет уведомление"""
     serializer = OrderSerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):

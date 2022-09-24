@@ -12,12 +12,18 @@ class CustomPagination(PageNumberPagination):
 
 
 class CategoryListView(ListAPIView):
+    """
+    Получить все категории
+    """
     queryset = Category.objects.all()
     # pagination_class = CustomPagination
     serializer_class = CategorySerializer
 
 
 class ProductsByCategoryView(ListAPIView):
+    """
+    Получить все продукты по категории
+    """
     # pagination_class = CustomPagination
     serializer_class = ProductSerializer
 
